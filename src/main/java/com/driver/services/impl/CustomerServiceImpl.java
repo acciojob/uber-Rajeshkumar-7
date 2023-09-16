@@ -1,17 +1,14 @@
 package com.driver.services.impl;
 
-import com.driver.model.TripBooking;
+import com.driver.model.*;
 import com.driver.services.CustomerService;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.driver.model.Customer;
-import com.driver.model.Driver;
 import com.driver.repository.CustomerRepository;
 import com.driver.repository.DriverRepository;
 import com.driver.repository.TripBookingRepository;
-import com.driver.model.TripStatus;
 
 import java.util.*;
 
@@ -66,8 +63,9 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 
 		currDriver.getCab().setAvailable(false);
+		Customer currCustomer = customerOptional.get();
 
-		driverRepository2.save(currDriver);
+
 
 		TripBooking tripBooking = new TripBooking();
 		tripBooking.setFromLocation(fromLocation);
@@ -78,6 +76,14 @@ public class CustomerServiceImpl implements CustomerService {
 		tripBooking.setDriver(currDriver);
 		tripBooking.setCustomer(customerOptional.get());
 
+		List<TripBooking> tripBookings = currDriver.getTripBookingList();
+		tripBookings.add(tripBooking);
+
+		List<TripBooking> tripBookings2 = currCustomer.getTripBookingList();
+		tripBookings2.add(tripBooking);
+
+		customerRepository2.save(currCustomer);
+		driverRepository2.save(currDriver);
 		tripBookingRepository2.save(tripBooking);
 		return tripBooking;
 	}
