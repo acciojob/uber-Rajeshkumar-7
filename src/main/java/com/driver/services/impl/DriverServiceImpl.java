@@ -48,13 +48,13 @@ public class DriverServiceImpl implements DriverService {
 
 		Optional<Driver> optionalDriver = driverRepository3.findById(driverId);
 
-		if(!optionalDriver.isPresent()){
-			return;
+		if(optionalDriver.isPresent()){
+			Driver driver = optionalDriver.get();
+			driver.getCab().setAvailable(false);
+
+			driverRepository3.save(driver);
 		}
 
-		Driver driver = optionalDriver.get();
-		driver.getCab().setAvailable(false);
 
-		driverRepository3.save(driver);
 	}
 }
