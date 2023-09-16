@@ -82,9 +82,10 @@ public class CustomerServiceImpl implements CustomerService {
 		List<TripBooking> tripBookings2 = currCustomer.getTripBookingList();
 		tripBookings2.add(tripBooking);
 
+		tripBookingRepository2.save(tripBooking);
 		customerRepository2.save(currCustomer);
 		driverRepository2.save(currDriver);
-		tripBookingRepository2.save(tripBooking);
+
 		return tripBooking;
 	}
 
